@@ -11,7 +11,12 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public abstract class BasePage {
+import java.util.List;
+
+public abstract class  BasePage {
+
+    @FindBy(css = "span.title-level-1")
+    public List<WebElement> menuOptions;
 
     @FindBy(css = "div[class='loader-mask shown']")
     @CacheLookup
@@ -52,7 +57,7 @@ public abstract class BasePage {
      */
     public void waitUntilLoaderScreenDisappear() {
         try {
-            WebDriverWait wait = new WebDriverWait(Driver.get(), 10);
+            WebDriverWait wait = new WebDriverWait(Driver.get(), 5);
             wait.until(ExpectedConditions.invisibilityOf(loaderMask));
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,20 +65,20 @@ public abstract class BasePage {
 
     }
 
-    public String getUserName() {
+    public String getUserName(){
         waitUntilLoaderScreenDisappear();
         BrowserUtils.waitForVisibility(userName, 5);
         return userName.getText();
     }
 
 
-    public void logOut() {
+
+    public void logOut(){
         BrowserUtils.waitFor(2);
         BrowserUtils.clickWithJS(userName);
         BrowserUtils.clickWithJS(logOutLink);
     }
-
-    public void goToMyUser() {
+    public void goToMyUser(){
         waitUntilLoaderScreenDisappear();
         BrowserUtils.waitForClickablility(userName, 5).click();
         BrowserUtils.waitForClickablility(myUser, 5).click();
@@ -104,8 +109,8 @@ public abstract class BasePage {
             BrowserUtils.scrollToElement(Driver.get().findElement(By.xpath(moduleLocator)));
             Driver.get().findElement(By.xpath(moduleLocator)).click();
         } catch (Exception e) {
-            BrowserUtils.clickWithTimeOut(Driver.get().findElement(By.xpath(moduleLocator)), 5);
-
+//            BrowserUtils.waitForStaleElement(Driver.get().findElement(By.xpath(moduleLocator)));
+            BrowserUtils.clickWithTimeOut(Driver.get().findElement(By.xpath(moduleLocator)),  5);
         }
     }
 

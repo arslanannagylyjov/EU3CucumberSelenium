@@ -1,4 +1,4 @@
-@wip
+
   Feature: Contacts Page
     Scenario: Default page number
       Given the user is on the login page
