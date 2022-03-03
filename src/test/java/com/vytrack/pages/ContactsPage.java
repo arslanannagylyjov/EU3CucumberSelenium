@@ -6,6 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class ContactsPage extends BasePage {
+    @FindBy(css = ".input-widget")
+    public WebElement pageNumber;
+
     //since we are extending best page we do not need explicit constructor for this class
     @FindBy(xpath = "//td[contains(text(),'mbrackstone9@example.com')][@data-column-label='Email']")
     public WebElement email;

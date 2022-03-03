@@ -1,7 +1,11 @@
 package com.vytrack.step_definitions;
 
+import com.vytrack.pages.ContactsPage;
+import com.vytrack.pages.DashboardPage;
+import com.vytrack.utilities.BrowserUtils;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.Assert;
 
 public class NavigationMenuStepDefs {
     @When("the user navigate to Fleet, Vehicles")
@@ -31,6 +35,21 @@ public class NavigationMenuStepDefs {
 
     @Then("title should be Calendar Events")
     public void title_should_be_Calendar_Events() {
+
         System.out.println("expected and actual results are matching");
+    }
+
+    @When("the user navigate to {string} {string}")
+    public void the_user_navigate_to(String tab, String module) {
+        new DashboardPage().navigateToModule(tab, module);
+    }
+
+    @Then("default page number should be {int}")
+    public void default_page_number_should_be(Integer expectedPageNumber) {
+        BrowserUtils.waitFor(8);
+        ContactsPage contactsPage = new ContactsPage();
+        Integer actualPageNumber = Integer.parseInt(contactsPage.pageNumber.getAttribute("value"));
+        Assert.assertEquals(expectedPageNumber, actualPageNumber);
+        System.out.println("actualPageNumber = " + actualPageNumber);
     }
 }

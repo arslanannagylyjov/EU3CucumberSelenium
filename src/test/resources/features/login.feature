@@ -1,6 +1,6 @@
 @login
 Feature: Users should be able to login
-  @driver @smoke @VYT-123 @wip
+  @driver @smoke @VYT-123
   Scenario: Login as a driver
     Given the user is on the login page
     When the user enters the driver information
