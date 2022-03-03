@@ -15,6 +15,7 @@ public class NavigationMenuStepDefs {
 
     @Then("the tittle should be Vehicles")
     public void the_tittle_should_be_Vehicles() {
+
         System.out.println("the tittle should be Vehicles");
     }
 
