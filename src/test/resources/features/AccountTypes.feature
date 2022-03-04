@@ -1,14 +1,15 @@
-Feature: Account Types
 @wip
+Feature: Account Types
+
   Scenario Outline: Login with different accounts
     Given the user logged in as "<userType>"
     When the user navigate to "<tab>" "<module>"
     Then the title contains "<title>"
     Examples:
       | userType      | tab        | module          | title                        |
-      | driver        | Activities | Calendar Events | Calendar Events - Activities |
+      | driver        | Activities | Calendar Events | CalendaR Events - Activities |
       | sales manager | Customers  | Accounts        | Accounts - Customers         |
-      | store manager | Customers  | Contacts        | Contacts - Customers         |
+      | store manager | Customers  | Contacts        | ContactR - Customers         |
 
   #
 #  Scenario: Driver user
@@ -26,7 +27,7 @@ Feature: Account Types
 #    When the user navigate to "Customers" "Contacts"
 #    Then the title contains "Contacts - Customers"
 #
-#  @wip
+#
 #  Scenario Outline: Different user types
 #    Given the user logged in as "<userType>"
 #
