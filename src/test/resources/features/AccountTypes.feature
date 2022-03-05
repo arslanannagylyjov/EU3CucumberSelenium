@@ -7,9 +7,9 @@ Feature: Account Types
     Then the title contains "<title>"
     Examples:
       | userType      | tab        | module          | title                        |
-      | driver        | Activities | Calendar Events | CalendaR Events - Activities |
+      | driver        | Activities | Calendar Events | Calendar Events - Activities |
       | sales manager | Customers  | Accounts        | Accounts - Customers         |
-      | store manager | Customers  | Contacts        | ContactR - Customers         |
+      | store manager | Customers  | Contacts        | Contacts - Customers         |
 
   #
 #  Scenario: Driver user
