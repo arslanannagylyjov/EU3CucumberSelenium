@@ -1,4 +1,4 @@
-@wip
+@wip @smoke
 Feature: Account Types
 
   Scenario Outline: Login with different accounts
