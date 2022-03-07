@@ -15,55 +15,56 @@ public class Driver {
     private Driver() {
     }
 
-    private static WebDriver driver;
+    private static InheritableThreadLocal<WebDriver> driverPool = new InheritableThreadLocal<>();
 
     public static WebDriver get() {
-        if (driver == null) {
-            String browser = ConfigurationReader.get("browser");
+        if (driverPool.get() == null) {
+            //test final
+            String browser = System.getProperty("browser") != null ? browser = System.getProperty("browser") : ConfigurationReader.get("browser");
             switch (browser) {
                 case "chrome":
                     WebDriverManager.chromedriver().setup();
-                    driver = new ChromeDriver();
+                    driverPool.set(new ChromeDriver());
                     break;
                 case "chrome-headless":
                     WebDriverManager.chromedriver().setup();
-                    driver = new ChromeDriver(new ChromeOptions().setHeadless(true));
+                    driverPool.set(new ChromeDriver(new ChromeOptions().setHeadless(true)));
                     break;
                 case "firefox":
                     WebDriverManager.firefoxdriver().setup();
-                    driver = new FirefoxDriver();
+                    driverPool.set(new FirefoxDriver());
                     break;
                 case "firefox=headless":
                     WebDriverManager.firefoxdriver().setup();
-                    driver = new FirefoxDriver(new FirefoxOptions().setHeadless(true));
+                    driverPool.set(new FirefoxDriver(new FirefoxOptions().setHeadless(true)));
                     break;
                 case "ie":
                     if (!System.getProperty("os.name").toLowerCase().contains("windows"))
                         throw new WebDriverException("Your OS does not support Internet Explorer!");
                     WebDriverManager.iedriver().setup();
-                    driver = new InternetExplorerDriver();
+                    driverPool.set(new InternetExplorerDriver());
                     break;
                 case "edge":
                     if (!System.getProperty("os.name").toLowerCase().contains("windows"))
                         throw new WebDriverException("Your OS does not support Microsoft Edge!");
                     WebDriverManager.edgedriver().setup();
-                    driver = new EdgeDriver();
+                    driverPool.set(new EdgeDriver());
                     break;
                 case "safari":
                     if (!System.getProperty("os.name").toLowerCase().contains("mac"))
                         throw new WebDriverException("Your OS does not support Safari!");
                     WebDriverManager.safaridriver().setup();
-                    driver = new SafariDriver();
+                    driverPool.set(new SafariDriver());
                     break;
             }
         }
-        return driver;
+        return driverPool.get();
     }
 
     public static void closeDriver() {
-        if (driver != null) {
-            driver.quit();
-            driver = null;
+        if (driverPool != null) {
+            driverPool.get().quit();
+            driverPool.remove();
         }
     }
 }
