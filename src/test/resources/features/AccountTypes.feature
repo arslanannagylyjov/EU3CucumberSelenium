@@ -1,4 +1,4 @@
-@wip
+
 Feature: Account Types
 
   Scenario Outline: Login with different accounts
