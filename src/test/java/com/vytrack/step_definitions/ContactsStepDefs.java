@@ -1,8 +1,6 @@
 package com.vytrack.step_definitions;
 
-import com.vytrack.pages.BasePage;
-import com.vytrack.pages.DashboardPage;
-import com.vytrack.pages.LoginPage;
+import com.vytrack.pages.*;
 import com.vytrack.utilities.BrowserUtils;
 import com.vytrack.utilities.ConfigurationReader;
 import com.vytrack.utilities.Driver;
@@ -22,21 +20,21 @@ public class ContactsStepDefs {
         //go to login page
         Driver.get().get(ConfigurationReader.get("url"));
         //based on input enter that user information
-        String username =null;
-        String password =null;
+        String username = null;
+        String password = null;
 
-        if(userType.equals("driver")){
+        if (userType.equals("driver")) {
             username = ConfigurationReader.get("driver_username");
             password = ConfigurationReader.get("driver_password");
-        }else if(userType.equals("sales manager")){
+        } else if (userType.equals("sales manager")) {
             username = ConfigurationReader.get("sales_manager_username");
             password = ConfigurationReader.get("sales_manager_password");
-        }else if(userType.equals("store manager")){
+        } else if (userType.equals("store manager")) {
             username = ConfigurationReader.get("store_manager_username");
             password = ConfigurationReader.get("store_manager_password");
         }
         //send username and password and login
-        new LoginPage().login(username,password);
+        new LoginPage().login(username, password);
     }
 
     @Then("the user should see following options")
@@ -45,22 +43,22 @@ public class ContactsStepDefs {
         //get the list of webelement and convert them to list of string and assert
         List<String> actualOptions = BrowserUtils.getElementsText(new DashboardPage().menuOptions);
 
-        Assert.assertEquals(menuOptions,actualOptions);
+        Assert.assertEquals(menuOptions, actualOptions);
         System.out.println("menuOptions = " + menuOptions);
         System.out.println("actualOptions = " + actualOptions);
     }
 
     @When("the user logs in using following credentials")
-    public void the_user_logs_in_using_following_credentials(Map<String,String> userInfo) {
+    public void the_user_logs_in_using_following_credentials(Map<String, String> userInfo) {
         System.out.println(userInfo);
         //use map information to login and also verify firstname and lastname
         //login with map info
-        new LoginPage().login(userInfo.get("username"),userInfo.get("password"));
+        new LoginPage().login(userInfo.get("username"), userInfo.get("password"));
         //verify firstname and lastname
         String actualName = new DashboardPage().getUserName();
-        String expectedName = userInfo.get("firstname")+" "+ userInfo.get("lastname");
+        String expectedName = userInfo.get("firstname") + " " + userInfo.get("lastname");
 
-        Assert.assertEquals(expectedName,actualName);
+        Assert.assertEquals(expectedName, actualName);
         System.out.println("expectedName = " + expectedName);
         System.out.println("actualName = " + actualName);
 
@@ -68,11 +66,22 @@ public class ContactsStepDefs {
 
 
     @When("the user clicks the {string} from contacts")
-    public void theUserClicksTheFromContacts(String arg0) {
-        
+    public void theUserClicksTheFromContacts(String email) {
+        BrowserUtils.waitFor(4);
+        ContactsPage contactsPage = new ContactsPage();
+        BrowserUtils.waitForPageToLoad(3);
+        contactsPage.getContactEmail(email).click();
     }
 
     @Then("the information should be same with database")
     public void theInformationShouldBeSameWithDatabase() {
+        ContactInfoPage contactInfoPage = new ContactInfoPage();
+        String actualFullName = contactInfoPage.fullName.getText();
+        String actualEmail = contactInfoPage.email.getText();
+        String actualPhone = contactInfoPage.phone.getText();
+
+        System.out.println("actualFullName = " + actualFullName);
+        System.out.println("actualEmail = " + actualEmail);
+        System.out.println("actualPhone = " + actualPhone);
     }
 }
