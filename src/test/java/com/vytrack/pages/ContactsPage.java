@@ -6,15 +6,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class ContactsPage extends BasePage {
-    @FindBy(css = ".input-widget")
+
+    @FindBy(css=".input-widget")
     public WebElement pageNumber;
 
-    //since we are extending best page we do not need explicit constructor for this class
-    @FindBy(xpath = "//td[contains(text(),'mbrackstone9@example.com')][@data-column-label='Email']")
-    public WebElement email;
 
-    public WebElement getContactEmail(String email) {
-        String xpath = "//td[contains(text(),'" + email + "')][@data-column-label='Email']";
+    public WebElement getContactEmail(String email){
+        String xpath = "//*[contains(text(), '"+email+"') and @data-column-label='Email']";
         return Driver.get().findElement(By.xpath(xpath));
     }
+
+
 }
