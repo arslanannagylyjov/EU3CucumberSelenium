@@ -48,9 +48,28 @@ Feature: Contacts page
       | user10         | John      | Doe      |
       | storemanager85 | John      | Doe      |
 
-  @wip @db
+  @db
   Scenario: Contacts test with email
     Given the user logged in as "sales manager"
     And the user navigate to "Customers" "Contacts"
     When the user clicks the "mbrackstone9@example.com" from contacts
     Then the information should be same with database
+
+  @db @wip
+  Scenario: Contacts test with email
+    Given the user logged in as "sales manager"
+    And the user navigate to "Customers" "Contacts"
+    When the user clicks the "mike.jorden@hotmail.com" from contacts
+    Then the information for "mike.jorden@hotmail.com" should be same with database
+
+
+  Scenario Outline: Contacts Test
+    Given the user logged in as "sales manager"
+    And the user navigate to "Customers" "Contacts"
+    When the user clicks the "<email>" from contacts
+    Then the information for "<email>" should be same with database
+
+    Examples:
+      | email                    |
+      | mbrackstone9@example.com |
+      | mike.jorden@hotmail.com  |

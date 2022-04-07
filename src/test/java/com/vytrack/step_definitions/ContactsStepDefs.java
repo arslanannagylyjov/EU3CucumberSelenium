@@ -91,17 +91,54 @@ public class ContactsStepDefs {
                 "where e.email='mbrackstone9@example.com'";
         Map<String, Object> rowMap = DBUtils.getRowMap(query);
 
-        String expectedFUllName = (String) rowMap.get("full_name");
+        String expectedFullName = (String) rowMap.get("full_name");
         String expectedPhone = (String) rowMap.get("phone");
         String expectedEmail = (String) rowMap.get("email");
 
-        System.out.println("expectedFUllName = " + expectedFUllName);
+        System.out.println("expectedFullName = " + expectedFullName);
         System.out.println("expectedPhone = " + expectedPhone);
         System.out.println("expectedEmail = " + expectedEmail);
 
         //assertion
-        Assert.assertEquals(expectedFUllName,actualFullName);
-        Assert.assertEquals(expectedPhone,actualPhone);
-        Assert.assertEquals(expectedEmail,actualEmail);
+        Assert.assertEquals(expectedFullName, actualFullName);
+        Assert.assertEquals(expectedPhone, actualPhone);
+        Assert.assertEquals(expectedEmail, actualEmail);
+    }
+
+    @Then("the information for {string} should be same with database")
+    public void the_information_for_should_be_same_with_database(String email) {
+
+        BrowserUtils.waitFor(5);
+        ContactInfoPage contactInfoPage = new ContactInfoPage();
+        String actualFullName = contactInfoPage.fullName.getText();
+        String actualEmail = contactInfoPage.email.getText();
+        String actualPhone = contactInfoPage.phone.getText();
+
+        System.out.println("actualFullName = " + actualFullName);
+        System.out.println("actualEmail = " + actualEmail);
+        System.out.println("actualPhone = " + actualPhone);
+
+
+        String query ="select concat(first_name,' ',last_name) as \"full_name\",e.email,phone\n" +
+                "from orocrm_contact c join orocrm_contact_email e\n" +
+                "on c.id = e.owner_id join orocrm_contact_phone p\n" +
+                "on e.owner_id = p.owner_id\n" +
+                "where e.email='"+email+"'";
+        Map<String, Object> rowMap = DBUtils.getRowMap(query);
+
+        String expectedFullName = (String) rowMap.get("full_name");
+        String expectedPhone = (String) rowMap.get("phone");
+        String expectedEmail = (String) rowMap.get("email");
+
+        System.out.println("expectedFullName = " + expectedFullName);
+        System.out.println("expectedPhone = " + expectedPhone);
+        System.out.println("expectedEmail = " + expectedEmail);
+
+        //assertion
+        Assert.assertEquals(expectedFullName, actualFullName);
+        Assert.assertEquals(expectedPhone, actualPhone);
+        Assert.assertEquals(expectedEmail, actualEmail);
+
+
     }
 }
